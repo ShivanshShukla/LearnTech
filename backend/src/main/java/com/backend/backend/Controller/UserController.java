@@ -23,11 +23,14 @@ public class UserController {
         myUserRepository.save(user);
         return "User saved";
     }
-    
+
     @GetMapping("/user/view")
     public String userHomePage() {
         return "userhome";
     }
-    
-    
+
+    @GetMapping("/login")
+    public String login() {
+        return "customLogin";
+    }
 }
