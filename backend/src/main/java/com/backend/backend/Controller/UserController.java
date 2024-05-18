@@ -1,16 +1,16 @@
 package com.backend.backend.Controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.backend.backend.Model.MyUser;
 import com.backend.backend.Repository.MyUserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-@RestController
+@Controller
 public class UserController {
     @Autowired
     private MyUserRepository myUserRepository;
@@ -23,5 +23,11 @@ public class UserController {
         myUserRepository.save(user);
         return "User saved";
     }
-
+    
+    @GetMapping("/user/view")
+    public String userHomePage() {
+        return "userhome";
+    }
+    
+    
 }
