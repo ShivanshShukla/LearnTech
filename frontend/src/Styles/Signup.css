@@ -1,0 +1,100 @@
+.container {
+  padding-top: 20px;
+}
+
+.card {
+  margin: 20px 0;
+}
+
+.card-header h3 {
+  margin: 0;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.input-group .form-control.col-3 {
+  padding-right: 5px;
+}
+
+.input-group .form-control.col-9 {
+  padding-left: 5px;
+}
+
+#submitbtn {
+  position: relative;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .input-group .form-control.col-3,
+  .input-group .form-control.col-9 {
+    flex: 1 1 auto;
+    width: auto;
+  }
+
+  .input-group .form-control.col-3 {
+    margin-bottom: 10px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  #submitbtn {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-top: 10px;
+  }
+
+  .card {
+    margin: 10px 0;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn {
+  margin: 5px 0;
+}
+
+.form-check-label a {
+  color: #007bff;
+}
+
+.form-check-label a:hover {
+  text-decoration: underline;
+}
+
+/* Custom styles for merged fields */
+.merged-fields .form-control {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.merged-fields .form-group {
+  margin-bottom: 0;
+}
+.buttons{
+ display: flex;
+ justify-content: space-evenly; 
+}
