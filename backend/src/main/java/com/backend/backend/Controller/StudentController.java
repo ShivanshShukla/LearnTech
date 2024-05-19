@@ -1,38 +1,53 @@
 package com.backend.backend.Controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.backend.Model.Student;
+import com.backend.backend.Model.StudentLoginForm;
 import com.backend.backend.Services.StudentServices;
 
 @RestController
-@RequestMapping("/learntech/student")
+@RequestMapping("/learntech/students")
 public class StudentController {
-    private final StudentServices studentServices;
 
     @Autowired
-    public StudentController(StudentServices studentServices) {
-        this.studentServices = studentServices;
+    private StudentServices studentService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> addStudent(@RequestBody Student student) {
+        String result = studentService.addStudent(student);
+        return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addStudent(@RequestBody Student student) {
-        Optional<Student> existingStudent = studentServices.findByEmailId(student.getEmailId());
-        if (existingStudent.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                                 .body("Student with this email already exists");
+    @PostMapping("/login")
+    public ResponseEntity<String> authenticateStudent(@RequestBody StudentLoginForm loginForm) {
+        String result = studentService.authenticateStudent(loginForm.getEmail(), loginForm.getPassword());
+        if (result.equals("Login successful")) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
         }
+    }
 
-        String result = studentServices.addStudent(student);
-        return ResponseEntity.ok(result);
+    @GetMapping("/get-first-name")
+    public ResponseEntity<String> getFirstName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Student student = studentService.findByEmailId(email).orElse(null);
+
+        if (student != null) {
+            return ResponseEntity.ok(student.getFirstName());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

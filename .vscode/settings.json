@@ -3,5 +3,6 @@
     "cSpell.words": [
         "learnteach",
         "learntech"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

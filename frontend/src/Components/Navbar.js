@@ -22,7 +22,7 @@ const Navbar = () => {
               <NavLink className="nav-link" to="/contact">Contact</NavLink>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">  {/* Right-align login/logout */}
+          <ul className="navbar-nav ms-auto">  
             <li className="nav-item">
               <NavLink to="/login" className="btn btn-primary w-100" id='login'>Login</NavLink>
             </li>

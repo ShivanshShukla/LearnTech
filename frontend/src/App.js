@@ -6,6 +6,9 @@ import About from "./Components/About";
 import Home from "./Components/Home";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
+import ThankYou from "./Components/Thankyou";
+import Dashboard from "./Components/Dashboard";
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
           <Route path="/contact" element={<Contactus />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/thankyou" element={<ThankYou />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Routes>
       </div>
     </Router>

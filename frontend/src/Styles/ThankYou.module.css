@@ -1,0 +1,29 @@
+.container {
+  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.card {
+  background: white;
+  border: none;
+}
+
+.card-title {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #6c757d;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}

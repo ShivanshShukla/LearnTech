@@ -5,19 +5,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.backend.backend.Model.Student;
 import com.backend.backend.Repository.StudentRepository;
-
 @Service
 public class StudentServices {
 
     private final StudentRepository studentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public StudentServices(StudentRepository studentRepository) {
+    public StudentServices(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<Student> findByEmailId(String emailId) {
@@ -29,8 +31,8 @@ public class StudentServices {
         if (existingStudent.isPresent()) {
             return "Student with this email already exists";
         }
-
         try {
+            student.setPassword(passwordEncoder.encode(student.getPassword()));
             studentRepository.save(student);
             return "Student data saved successfully";
         } catch (DataIntegrityViolationException e) {
@@ -79,5 +81,18 @@ public class StudentServices {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String authenticateStudent(String emailId, String password) {
+        Student student = studentRepository.findByEmailId(emailId);
+        if (student == null) {
+            return "User not found";
+        }
+
+        if (!passwordEncoder.matches(password, student.getPassword())) {
+            return "Incorrect password";
+        }
+
+        return "Login successful";
     }
 }
