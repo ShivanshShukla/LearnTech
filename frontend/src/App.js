@@ -8,22 +8,28 @@ import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ThankYou from "./Components/Thankyou";
 import Dashboard from "./Components/Dashboard";
-
+import Footer from "./Components/Footer";
+import ErrorPage from "./Components/Error";
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/contact" element={<Contactus />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/thankyou" element={<ThankYou />} />
-          <Route path="/dashboard" element={<Dashboard/>} />
-        </Routes>
+      <div className="d-flex flex-column min-vh-100">
+        <Navbar />
+        <main className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/contact" element={<Contactus />} />
+            <Route path="/about-us" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/thankyou" element={<ThankYou />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
     </Router>
   );

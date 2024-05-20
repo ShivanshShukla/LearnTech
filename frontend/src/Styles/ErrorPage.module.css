@@ -1,0 +1,16 @@
+.error-page {
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.error-page h1 {
+  font-size: 10rem;
+}
+
+.error-page h2 {
+  font-size: 3rem;
+}
+
+.error-page p {
+  font-size: 1.25rem;
+}

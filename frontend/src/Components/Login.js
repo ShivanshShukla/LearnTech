@@ -27,16 +27,20 @@ const Login = () => {
           localStorage.setItem("student", JSON.stringify(response.data));
           navigate("/dashboard");
         } else {
-          console.log("Login failed");
-          setError(response.data);
+          console.log("Login failed: Invalid response data");
+          setError("Invalid email or password. Please try again.");
         }
       } else {
-        console.log("Login failed");
+        console.log("Login failed: Unexpected status code");
         setError("Login failed. Please try again later.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      setError("Something went wrong. Please try again later.");
+      if (error.response && error.response.status === 401) {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        setError("Something went wrong. Please try again later.");
+      }
     }
   };
 
