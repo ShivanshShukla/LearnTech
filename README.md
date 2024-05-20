@@ -11,7 +11,6 @@ Steps I've completed:
   4) Create a login form page for students to login;
      1) Successful login page working. `✔`
      2) Redirecting to dashboard. `✔`
-  ### Both the task are completed.
 
 `Tomorrows task`
   1) Session handling 
