@@ -34,7 +34,9 @@ public class SecurityConfig {
                     registry.anyRequest().authenticated();
                 })
                 .formLogin(httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                    httpSecurityFormLoginConfigurer.loginPage("/login")
+                    .defaultSuccessUrl("/users/view", true)
+                    .permitAll();
                 })
                 .build();
     }

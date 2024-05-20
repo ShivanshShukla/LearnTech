@@ -9,5 +9,9 @@ public class MainController {
     public String viewHomePage() {
         return "view";
     }
-    
+
+    @GetMapping("/login")
+    public String login() {
+        return "customLogin";
+    }
 }
