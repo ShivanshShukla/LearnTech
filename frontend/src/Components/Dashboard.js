@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const Dashboard = () => {
   const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
-    const fetchFirstName = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/learntech/students/get-first-name', {
-          withCredentials: true 
-        });
-        setFirstName(response.data);
-      } catch (error) {
-        console.error('Error fetching first name:', error);
-      }
-    };
-
-    fetchFirstName();
+    const studentData = localStorage.getItem('student');
+    if (studentData) {
+      const student = JSON.parse(studentData);
+      setFirstName(student.firstName);
+    }
   }, []);
-
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">

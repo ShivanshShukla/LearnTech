@@ -10,17 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.backend.backend.Model.Student;
 import com.backend.backend.Repository.StudentRepository;
+
 @Service
 public class StudentServices {
 
-    private final StudentRepository studentRepository;
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
-    public StudentServices(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
-        this.studentRepository = studentRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private StudentRepository studentRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Optional<Student> findByEmailId(String emailId) {
         return Optional.ofNullable(studentRepository.findByEmailId(emailId));
@@ -95,4 +92,5 @@ public class StudentServices {
 
         return "Login successful";
     }
+
 }

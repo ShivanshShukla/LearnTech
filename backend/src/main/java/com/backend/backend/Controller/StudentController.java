@@ -3,11 +3,7 @@ package com.backend.backend.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +21,6 @@ public class StudentController {
     @Autowired
     private StudentServices studentService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     @PostMapping("/signup")
     public ResponseEntity<String> addStudent(@RequestBody Student student) {
         String result = studentService.addStudent(student);
@@ -35,36 +28,19 @@ public class StudentController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody StudentLoginForm loginRequest) {
+    public ResponseEntity<?> loginStudent(@RequestBody StudentLoginForm studentLoginForm) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String email = authentication.getName();
-            Student student = studentService.findByEmailId(email).orElse(null);
-
-            if (student != null) {
-                StudentResponse userResponse = new StudentResponse(student.getFirstName(), student.getLastName(),
-                        student.getEmailId());
-                return ResponseEntity.ok(userResponse);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
+            String authenticationResult = studentService.authenticateStudent(studentLoginForm.getEmail(),
+                    studentLoginForm.getPassword());
+            if ("User not found".equals(authenticationResult) || "Incorrect password".equals(authenticationResult)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(authenticationResult);
             }
+            Student student = studentService.findByEmailId(studentLoginForm.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return ResponseEntity
+                    .ok(new StudentResponse(student.getFirstName(), student.getLastName(), student.getEmailId()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials: " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/get-first-name")
-    public ResponseEntity<String> getFirstName() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Student student = studentService.findByEmailId(email).orElse(null);
-
-        if (student != null) {
-            return ResponseEntity.ok(student.getFirstName());
-        } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

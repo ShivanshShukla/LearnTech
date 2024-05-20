@@ -1,38 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/learntech/students/login', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/learntech/students/login",
+        {
+          email,
+          password,
+        }
+      );
 
       if (response.status === 200) {
-        if (response.data === 'Login successful') {
-          setError('');
+        if (response.data && response.data.firstName) {
+          setError("");
           console.log("Login successful");
-          navigate('/dashboard');
+          localStorage.setItem("student", JSON.stringify(response.data));
+          navigate("/dashboard");
         } else {
-            console.log("Login failed");
+          console.log("Login failed");
           setError(response.data);
         }
       } else {
         console.log("Login failed");
-        setError('Login failed. Please try again later.');
+        setError("Login failed. Please try again later.");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Something went wrong. Please try again later.');
+      console.error("Login error:", error);
+      setError("Something went wrong. Please try again later.");
     }
   };
 
