@@ -4,5 +4,6 @@
         "learnteach",
         "learntech"
     ],
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "maven.view": "flat"
 }
