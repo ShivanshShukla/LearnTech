@@ -23,14 +23,18 @@ Steps I've completed:
 7. Created a footer. `✔`
 8. Added error page. `✔`
 
----
 
+## 21 May 2024
+
+9. Created a CRUD dashboard for User at backend.
+   1. Now a user can edit the details of student except for the password. `✔`
+10. Session data is being maintained when a student logs in or logs out of the application `✔`
+11. Fixed other minor bugs. `✔`
+---
 **`Tomorrows task`**
 
-1. Session handling
-2. Cookies.
-3. Create a CRUD dashboard for User at backend.
-4. Create a CRUD dashboard for Admins at backend.
+1. Create a CRUD dashboard for Admins at backend.
 
 > Future work
-> 1) Create another backend application that will read document and display it on the web application.
+>
+> 1. Create another backend application that will read document and display it on the web application.
