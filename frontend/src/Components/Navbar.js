@@ -1,14 +1,25 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../Styles/Navbar.css";
+import axios from "axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("student");
 
-  const handleLogout = () => {
-    localStorage.removeItem("student");
-    navigate("/login");
+  const handleLogout = async () => {
+    const student = JSON.parse(localStorage.getItem("student"));
+    if (student) {
+      try {
+        await axios.post("http://localhost:8080/learntech/students/logout", {
+          studentId: student.id,
+        });
+        localStorage.removeItem("student");
+        navigate("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    }
   };
 
   return (

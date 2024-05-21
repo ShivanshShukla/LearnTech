@@ -29,4 +29,5 @@ public class Student {
     private String countryCode;
     private String contact;
     private String gender;
+    private boolean active;
 }

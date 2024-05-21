@@ -14,10 +14,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/learntech/students/login",
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
 
       if (response.status === 200) {

@@ -106,11 +106,18 @@ public class StudentServices {
     }
 
     public Optional<Student> getStudentById(Long id) {
-       Optional<Student> student = studentRepository.findById(id);
+        Optional<Student> student = studentRepository.findById(id);
         if (student.isPresent()) {
             return student;
         } else {
             throw new RuntimeException("Student not found with id: " + id);
         }
+    }
+
+    public void setActiveStatus(Long studentId, boolean status) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID"));
+        student.setActive(status);
+        studentRepository.save(student);
     }
 }

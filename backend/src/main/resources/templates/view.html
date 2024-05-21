@@ -1,11 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #45a049;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello world</h1>
+    <h1>Dashboard</h1>
+
+    <div class="container">
+      <div class="card">
+        <h2>Total Users</h2>
+        <p th:text="${totalUsers}"></p>
+      </div>
+
+      <div class="card">
+        <h2>Active Users</h2>
+        <p th:text="${activeUsers}"></p>
+      </div>
+
+      <div class="card">
+        <h2>Gender Distribution</h2>
+        <canvas id="genderChart"></canvas>
+      </div>
+    </div>
+
+    <button class="button" onclick="location.href='/users/dashboard'">
+      Student List
+    </button>
+
+    <script th:inline="javascript">
+      var genderStats = /*[[${genderStats}]]*/ "[]";
+
+      var ctx = document.getElementById("genderChart").getContext("2d");
+      var genderChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Male", "Female", "Other"],
+          datasets: [
+            {
+              data: [
+                ,
+                ,/*[[${genderStats['Male']}]]*/
+                /*[[${genderStats['Female']}]]*/
+                /*[[${genderStats['Other']}]]*/
+              ],
+              backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Gender Distribution",
+            },
+          },
+        },
+      });
+    </script>
   </body>
 </html>

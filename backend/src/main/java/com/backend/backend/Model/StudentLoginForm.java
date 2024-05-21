@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentLoginForm {
+
     private String email;
     private String password;
+
 }

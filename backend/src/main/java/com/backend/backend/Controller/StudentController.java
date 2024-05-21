@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.backend.DTO.LogoutRequest;
 import com.backend.backend.Model.Student;
 import com.backend.backend.Model.StudentLoginForm;
 import com.backend.backend.Model.StudentResponse;
@@ -37,11 +38,23 @@ public class StudentController {
             }
             Student student = studentService.findByEmailId(studentLoginForm.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            return ResponseEntity
-                    .ok(new StudentResponse(student.getFirstName(), student.getLastName(), student.getEmailId()));
+
+            studentService.setActiveStatus(student.getId(), true);
+
+            return ResponseEntity.ok(new StudentResponse(student.getFirstName(), student.getLastName(),
+                    student.getEmailId(), student.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutStudent(@RequestBody LogoutRequest logoutRequest) {
+        try {
+            studentService.setActiveStatus(logoutRequest.getStudentId(), false);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
