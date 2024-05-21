@@ -37,12 +37,18 @@ public class UserController {
 
     @GetMapping("/view")
     public String userHomePage() {
-        return "view"; 
+        return "view";
     }
 
-    @GetMapping("/students/{emailId}")
+    @GetMapping("/students/email/{emailId}")
     public ResponseEntity<?> findByEmailId(@PathVariable String emailId) {
         Optional<Student> student = studentServices.findByEmailId(emailId);
+        return student.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/students/{studentId}")
+    public ResponseEntity<?> getById(@PathVariable Long studentId) {
+        Optional<Student> student = studentServices.getStudentById(studentId);
         return student.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -58,22 +64,29 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Students saved");
     }
 
-    @DeleteMapping("/students/{id}")
-    public ResponseEntity<String> deleteStudentById(@PathVariable Long id) {
-        studentServices.deleteStudentById(id);
-        return ResponseEntity.ok("Student deleted");
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteStudentsByIds(@RequestBody List<Long> ids) {
+        studentServices.deleteStudentsByIds(ids);
+        return ResponseEntity.ok("Students deleted");
     }
 
-    @PutMapping("/students")
+    @PutMapping("/student-update")
     public ResponseEntity<String> updateStudentDetails(@RequestBody Student student) {
         studentServices.updateStudentDetails(student);
         return ResponseEntity.ok("Student updated");
     }
 
     @GetMapping("/dashboard")
-    public String getUserDashboard(Model model) {
+    public String getStudentDashboard(Model model) {
         List<Student> students = studentServices.getAllStudents();
         model.addAttribute("students", students);
         return "userDashboard";
+    }
+
+    @GetMapping("/editDashboard.html")
+    public String editStudentDashboard(Model model) {
+        List<Student> students = studentServices.getAllStudents();
+        model.addAttribute("students", students);
+        return "editDashboard";
     }
 }

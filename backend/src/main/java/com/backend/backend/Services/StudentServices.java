@@ -93,4 +93,24 @@ public class StudentServices {
         return "Login successful";
     }
 
+    public void deleteStudentsByIds(List<Long> ids) {
+        try {
+            for (Long id : ids) {
+                studentRepository.deleteById(id);
+            }
+            System.out.println("Data deleted successfully");
+        } catch (Exception e) {
+            System.out.println("Failed to delete data");
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<Student> getStudentById(Long id) {
+       Optional<Student> student = studentRepository.findById(id);
+        if (student.isPresent()) {
+            return student;
+        } else {
+            throw new RuntimeException("Student not found with id: " + id);
+        }
+    }
 }
