@@ -120,4 +120,24 @@ public class StudentServices {
         student.setActive(status);
         studentRepository.save(student);
     }
+
+    public Long totalNumbersOfUsers() {
+        return studentRepository.count();
+    }
+
+    public Long totalActiveUsers() {
+        return studentRepository.countActiveStudents();
+    }
+
+    public int totalMaleUsers() {
+        return studentRepository.countTotalMale();
+    }
+
+    public int totalFemaleUsers() {
+        return studentRepository.countTotalFemale();
+    }
+
+    public int totalOtherUsers() {
+        return studentRepository.countTotalOther();
+    }
 }

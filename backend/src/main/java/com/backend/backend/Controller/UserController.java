@@ -35,11 +35,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User saved");
     }
 
-    @GetMapping("/view")
-    public String userHomePage() {
-        return "view";
-    }
-
     @GetMapping("/students/email/{emailId}")
     public ResponseEntity<?> findByEmailId(@PathVariable String emailId) {
         Optional<Student> student = studentServices.findByEmailId(emailId);
@@ -83,7 +78,7 @@ public class UserController {
         return "userDashboard";
     }
 
-    @GetMapping("/editDashboard.html")
+    @GetMapping("/editdashboard")
     public String editStudentDashboard(Model model) {
         List<Student> students = studentServices.getAllStudents();
         model.addAttribute("students", students);

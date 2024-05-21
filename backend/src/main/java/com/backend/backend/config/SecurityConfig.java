@@ -35,8 +35,8 @@ public class SecurityConfig {
                 })
                 .formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer.loginPage("/login")
-                    .defaultSuccessUrl("/users/view", true)
-                    .permitAll();
+                            .defaultSuccessUrl("/home", true)
+                            .permitAll();
                 })
                 .build();
     }
@@ -45,7 +45,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return myUserDetailsService;
     }
-   
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -59,9 +59,9 @@ public class SecurityConfig {
         return provider;
     }
 
-
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
