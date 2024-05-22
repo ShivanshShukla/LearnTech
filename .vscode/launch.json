@@ -14,6 +14,17 @@
             "mainClass": "com.backend.backend.BackendApplication",
             "projectName": "backend",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61989 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=backend"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-QuestionnaireApplication<questionnaire>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.question.questionnaire.QuestionnaireApplication",
+            "projectName": "questionnaire",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
