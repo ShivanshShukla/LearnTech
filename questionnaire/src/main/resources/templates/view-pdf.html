@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View PDF</title>
+</head>
+<body>
+<h1>View PDF File</h1>
+<div th:if="${pdfFile}">
+    <object th:attr="data='data:application/pdf;base64,' + ${#strings.encodeBase64(pdfFile.fileData)}" type="application/pdf" width="600" height="400">
+        <embed th:attr="src='data:application/pdf;base64,' + ${#strings.encodeBase64(pdfFile.fileData)}" type="application/pdf" />
+        This browser does not support PDFs. Please download the PDF to view it: <a th:href="@{'/download/' + ${pdfFile.id}}">Download PDF</a>.
+    </object>
+</div>
+<p th:if="${pdfFile == null}">PDF file not found.</p>
+<p th:text="${message}"></p>
+</body>
+</html>
