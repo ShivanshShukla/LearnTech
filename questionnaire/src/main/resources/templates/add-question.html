@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/CSS/addQ.css}" />
+    <style>
+      .navbar-custom {
+        background-color: #4caf50; /* Green */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h3 class="text-center">Features</h3>
+      <a href="#">Dashboard</a>
+      <a href="#">Profile</a>
+      <a href="#">Settings</a>
+      <a href="#">Reports</a>
+      <a href="#">Help</a>
+      <a href="http://localhost:8081/add-question">Add Question</a>
+      <a href="#">Display Question</a>
+      <a class="btn btn-success mt-4 button" th:href="@{/users/dashboard}"
+        >Student List</a
+      >
+    </div>
+
+    <div class="content">
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
+      >
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span th:text="${loggedInUser}">User</span>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
+                <a class="dropdown-item" href="#">Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="http://localhost:8080/logout">Logout</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+        <!-- Main content -->
+        <main
+          role="main"
+          class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main-content"
+        >
+          <div class="container">
+            <h1 class="mt-4 mb-4">Add MCQ Question</h1>
+            <form
+              th:action="@{/add-question}"
+              th:object="${mcqQuestion}"
+              method="post"
+              class="mb-4"
+            >
+              <div class="form-group">
+                <label>Subject Code:</label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      id="subjectCode-WBT"
+                      th:field="*{subjectCode}"
+                      th:value="WBT"
+                      class="form-check-input"
+                      required
+                    />
+                    <label class="form-check-label" for="subjectCode-WBT"
+                      >WBT</label
+                    >
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      id="subjectCode-ADJ"
+                      th:field="*{subjectCode}"
+                      th:value="ADJ"
+                      class="form-check-input"
+                    />
+                    <label class="form-check-label" for="subjectCode-ADJ"
+                      >ADJ</label
+                    >
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      id="subjectCode-SQL"
+                      th:field="*{subjectCode}"
+                      th:value="SQL"
+                      class="form-check-input"
+                    />
+                    <label class="form-check-label" for="subjectCode-SQL"
+                      >SQL</label
+                    >
+                  </div>
+                  <!-- Add more radio inputs for other subject codes -->
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input
+                  type="text"
+                  id="subject"
+                  th:field="*{subject}"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label for="question">Question:</label>
+                <textarea
+                  id="question"
+                  th:field="*{question}"
+                  class="form-control"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="optionA">Option A:</label>
+                <input
+                  type="text"
+                  id="optionA"
+                  th:field="*{optionA}"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="optionB">Option B:</label>
+                <input
+                  type="text"
+                  id="optionB"
+                  th:field="*{optionB}"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="optionC">Option C:</label>
+                <input
+                  type="text"
+                  id="optionC"
+                  th:field="*{optionC}"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="optionD">Option D:</label>
+                <input
+                  type="text"
+                  id="optionD"
+                  th:field="*{optionD}"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="correctAnswer">Correct Answer:</label>
+                <select
+                  id="correctAnswer"
+                  th:field="*{correctAnswer}"
+                  class="form-control"
+                  required
+                >
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="explanation">Explanation:</label>
+                <textarea
+                  id="explanation"
+                  th:field="*{explanation}"
+                  class="form-control"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                  Add Question
+                </button>
+              </div>
+            </form>
+            <div th:if="${message}" class="alert alert-success">
+              <p th:text="${message}"></p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

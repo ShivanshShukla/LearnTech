@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>MCQ Questions - Subject: [[${subject}]]</title>
+  </head>
+  <body>
+    <h1>MCQ Questions - Subject: <span th:text="${subjectCode}"></span></h1>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Option A</th>
+          <th>Option B</th>
+          <th>Option C</th>
+          <th>Option D</th>
+          <th>Correct Answer</th>
+          <th>Explanation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="question : ${questions}">
+          <td th:text="${question.question}"></td>
+          <td th:text="${question.optionA}"></td>
+          <td th:text="${question.optionB}"></td>
+          <td th:text="${question.optionC}"></td>
+          <td th:text="${question.optionD}"></td>
+          <td th:text="${question.correctAnswer}"></td>
+          <td th:text="${question.explanation}"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br />
+    <a href="/add-question">Add New Question</a>
+    <br />
+    <a th:href="@{'/questions/' + ${subject} + '/delete'}"
+      >Delete All Questions for this Subject</a
+    >
+
+    <div th:if="${message}">
+      <p th:text="${message}"></p>
+    </div>
+  </body>
+</html>
