@@ -1,5 +1,11 @@
 The backend is currently under progress.
 
+## 25 May 2024
+
+1. Completed with edit questions and display questions on the server side as of now`✔`
+2. Majorly fixing of CSS.`✔`
+3. Added more questions to one of the subjects.`✔`
+
 ## 24 May 2024
 
 1.  Learned about PDF extraction using Pdf box library. `✔`
@@ -40,8 +46,8 @@ Steps I've completed:
 
 **`Tomorrows task`**
 
-1. Create a CRUD dashboard for Admins at backend.
-
-> Future work
->
-> 1. Create another backend application that will read document and display it on the web application.
+1.  Add further detailing and CSS to the remaining pages and fix css bugs
+2.  Implementing microservices
+3.  Creating links b/w web application so that they can communicate.
+4.  Implement the backend for the quiz section
+5.
