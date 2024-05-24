@@ -30,21 +30,35 @@ public class MCQQuestionController {
     public String addQuestion(@ModelAttribute("mcqQuestion") MCQQuestion mcqQuestion, Model model) {
         service.saveQuestion(mcqQuestion);
         model.addAttribute("message", "Question added successfully");
-        model.addAttribute("mcqQuestion", new MCQQuestion()); // To clear the form after submission
+        model.addAttribute("mcqQuestion", new MCQQuestion());
         return "add-question";
     }
 
-    @GetMapping("/{subjectCode}")
+    @GetMapping("question-list/{subjectCode}")
     public String getQuestionsBySubject(@PathVariable String subjectCode, Model model) {
         List<MCQQuestion> questions = service.getAllQuestionsBySubjectCode(subjectCode);
         model.addAttribute("questions", questions);
-        model.addAttribute("subject", subjectCode); // Use subjectCode instead of subject
+        model.addAttribute("subject", subjectCode);
         return "question-list";
     }
 
     @DeleteMapping("/{subject}")
     public String deleteQuestionsBySubject(@PathVariable String subject) {
         service.deleteQuestionsBySubject(subject);
-        return "redirect:/questions"; // Redirect to the question list
+        return "redirect:/questions";
     }
+
+    @GetMapping("/edit-question/{id}")
+    public String editQuestion(Model model, @PathVariable("id") String questionId) {
+        MCQQuestion question = service.getQuestionById(questionId);
+        model.addAttribute("question", question); // Change attribute name to "question"
+        return "edit-question";
+    }
+
+    @PostMapping("/update-question")
+    public String updateQuestion(@ModelAttribute("question") MCQQuestion question) {
+        service.saveQuestion(question);
+        return "redirect:/question-list/" + question.getSubjectCode();
+    }
+   
 }

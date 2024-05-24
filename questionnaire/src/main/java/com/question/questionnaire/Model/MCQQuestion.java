@@ -8,14 +8,14 @@ public class MCQQuestion {
     @Id
     private String id;
     private String subject;
-    private String question;
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
-    private String correctAnswer;
-    private String explanation;
-    private String subjectCode;
+        private String question;
+        private String optionA;
+        private String optionB;
+        private String optionC;
+        private String optionD;
+        private String correctAnswer;
+        private String explanation;
+        private String subjectCode;
 
     public String getId() {
         return id;

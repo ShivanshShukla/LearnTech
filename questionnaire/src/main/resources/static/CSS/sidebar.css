@@ -1,0 +1,70 @@
+.sidebar {
+  height: 100%; /* Full height sidebar */
+  width: 250px; /* Fixed width */
+  position: fixed; /* Fixed position */
+  top: 0; /* Top position */
+  left: 0; /* Left position */
+  background-color: #343a40; /* Dark background */
+  padding-top: 20px; /* Space from top */
+  color: white; /* Light color for text */
+}
+
+.sidebar a {
+  padding: 10px; /* Padding for links */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Display as block element */
+  color: white; /* Light color for text */
+}
+
+.sidebar a:hover {
+  background-color: #555; /* Darker background on hover */
+}
+
+.dropdown-btn {
+  background-color: #343a40; /* Dark background */
+  color: white; /* Light color for text */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor */
+  width: 100%; /* Full width */
+  text-align: left; /* Align text to left */
+  padding: 10px; /* Padding for button */
+  outline: none; /* No outline */
+}
+
+.dropdown-btn:hover {
+  background-color: #555; /* Darker background on hover */
+}
+
+.dropdown-container {
+  display: none; /* Hidden container */
+  background-color: #343a40; /* Dark background */
+  padding-left: 20px; /* Padding from left */
+}
+
+.dropdown-container a {
+  padding: 10px; /* Padding for links */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Display as block element */
+  color: white; /* Light color for text */
+}
+
+.dropdown-container a:hover {
+  background-color: #555; /* Darker background on hover */
+}
+
+.btn-success {
+  background-color: #28a745; /* Green background */
+  color: white; /* Light color for text */
+  width: 100%; /* Full width */
+  padding: 10px; /* Padding for button */
+  text-align: center; /* Align text to center */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Display as block element */
+  margin-top: 20px; /* Space from top */
+}
+
+.btn-success:hover {
+  background-color: #218838; /* Darker green background on hover */
+}

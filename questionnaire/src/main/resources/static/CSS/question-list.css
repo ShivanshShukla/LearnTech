@@ -1,0 +1,13 @@
+.scrollable-table {
+  max-height: 450px;
+  max-width: 1000px;
+  overflow-y: auto;
+}
+
+.center-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+.main-content{
+  margin-left: 250px;
+}

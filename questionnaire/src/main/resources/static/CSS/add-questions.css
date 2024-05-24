@@ -1,0 +1,15 @@
+.main-content {
+  margin-top: 20px; /* Add margin on top */
+}
+.form-group {
+  margin-bottom: 15px; /* Add margin bottom to each form group */
+}
+.form-check-inline {
+  margin-right: 15px; /* Add margin between radio buttons */
+}
+.form-control {
+  height: calc(2.25rem + 2px); /* Reduce form control height */
+}
+.btn-lg {
+  padding: 10px 20px; /* Reduce padding of large buttons */
+}

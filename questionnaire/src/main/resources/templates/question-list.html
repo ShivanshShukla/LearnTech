@@ -1,45 +1,415 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>MCQ Questions - Subject: [[${subject}]]</title>
+    <title>MCQ Questions - Subject: [[${subjectCode}]]</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    
+    <link rel="stylesheet" href="/CSS/navbar.css" />
+    <link rel="stylesheet" href="/CSS/sidebar.css" />
+    <link rel="stylesheet" href="/CSS/question-list.css">
+    <style>
+      .main-content {
+        padding-top: 50px /* Adjusted to accommodate the navbar */
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: -250px;
+          width: 250px;
+          height: 100%;
+          z-index: 999;
+          background: #f8f9fa;
+          overflow-x: hidden;
+          transition: 0.5s;
+        }
+        .sidebar.active {
+          left: 0;
+        }
+        .main-content {
+          margin-left: 0;
+          transition: margin-left 0.5s;
+        }
+        .container {
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>MCQ Questions - Subject: <span th:text="${subjectCode}"></span></h1>
-
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Question</th>
-          <th>Option A</th>
-          <th>Option B</th>
-          <th>Option C</th>
-          <th>Option D</th>
-          <th>Correct Answer</th>
-          <th>Explanation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="question : ${questions}">
-          <td th:text="${question.question}"></td>
-          <td th:text="${question.optionA}"></td>
-          <td th:text="${question.optionB}"></td>
-          <td th:text="${question.optionC}"></td>
-          <td th:text="${question.optionD}"></td>
-          <td th:text="${question.correctAnswer}"></td>
-          <td th:text="${question.explanation}"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <br />
-    <a href="/add-question">Add New Question</a>
-    <br />
-    <a th:href="@{'/questions/' + ${subject} + '/delete'}"
-      >Delete All Questions for this Subject</a
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
     >
-
-    <div th:if="${message}">
-      <p th:text="${message}"></p>
+      <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >User</a
+            >
+            <div
+              class="dropdown-msenu dropdown-menu-right"
+              aria-labelledby="navbarDropdown"
+            >
+              <a class="dropdown-item" href="#">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="http://localhost:8080/logout"
+                >Logout</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="http://localhost:8081/" class="close-btn">&times;</a>
+      <a href="http://localhost:8081/">Dashboard</a>
+      <a href="http://localhost:8081/">Profile</a>
+      <a href="http://localhost:8081/">Settings</a>
+      <a href="http://localhost:8081/">Reports</a>
+      <a href="http://localhost:8081/">Help</a>
+      <button class="dropdown-btn btn text-left">
+        Subjects <i class="fa fa-caret-down float-right"></i>
+      </button>
+      <div class="dropdown-container" style="display: none">
+        <a
+          href="http://localhost:8082/question-list/WBT"
+          onclick="fetchQuestions('WBT')"
+          >Web Based Technologies</a
+        >
+        <a
+          href="http://localhost:8082/question-list/SQL"
+          onclick="fetchQuestions('SQL')"
+          >SQL</a
+        >
+        <a
+          href="http://localhost:8082/question-list/ADJ"
+          onclick="fetchQuestions('ADJ')"
+          >Advance Java</a
+        >
+        <a href="#" onclick="fetchQuestions('English')">English</a>
+      </div>
+      <a class="btn btn-success mt-4" href="http://localhost:8081/users/dashboard">Student List</a>
     </div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="container">
+        <h1 class="mt-4">
+          MCQ Questions - Subject: <span th:text="${subjectCode}"></span>
+        </h1>
+        <div class="scrollable-table">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th>Option A</th>
+                <th>Option B</th>
+                <th>Option C</th>
+                <th>Option D</th>
+                <th>Correct Answer</th>
+                <th>Explanation</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Iterate over questions and display them -->
+              <tr th:each="question, index : ${questions}">
+                <td th:text="${index.index + 1}"></td>
+                <td th:text="${question.question}"></td>
+                <td th:text="${question.optionA}"></td>
+                <td th:text="${question.optionB}"></td>
+                <td th:text="${question.optionC}"></td>
+                <td th:text="${question.optionD}"></td>
+                <td th:text="${question.correctAnswer}"></td>
+                <td th:text="${question.explanation}"></td>
+                <td>
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-primary edit-button"
+                    data-toggle="modal"
+                    data-target="#editQuestionModal"
+                    th:data-id="${question.id}"
+                  >
+                    <i class="fas fa-pencil-alt"></i>
+                  </a>
+                </td>
+                <td>
+                  <a
+                    th:href="@{'/delete-question/' + ${question.id}}"
+                    class="btn btn-sm btn-danger"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Centered Buttons -->
+        <div class="center-buttons">
+          <a href="/add-question" class="btn btn-primary">Add New Question</a>
+          <a
+            th:href="@{'/questions/' + ${subject} + '/delete'}"
+            class="btn btn-danger ml-2"
+            >Delete All Questions for this Subject</a
+          >
+        </div>
+        <!-- Success Message -->
+        <div th:if="${message}" class="mt-4 alert alert-success">
+          <p th:text="${message}"></p>
+        </div>
+      </div>
+    </div>
+    <!-- Edit Question Modal -->
+    <div
+      class="modal fade"
+      id="editQuestionModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editQuestionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editQuestionModalLabel">
+              Edit Question
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              id="edit-question-form"
+              th:action="@{/update-question}"
+              method="post"
+            >
+              <input type="hidden" id="editQuestionId" name="id" />
+              <div class="form-group">
+                <label for="editQuestion">Question</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editQuestion"
+                  name="question"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editOptionA">Option A</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editOptionA"
+                  name="optionA"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editOptionB">Option B</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editOptionB"
+                  name="optionB"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editOptionC">Option C</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editOptionC"
+                  name="optionC"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editOptionD">Option D</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editOptionD"
+                  name="optionD"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editCorrectAnswer">Correct Answer</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editCorrectAnswer"
+                  name="correctAnswer"
+                />
+              </div>
+              <div class="form-group">
+                <label for="editExplanation">Explanation</label>
+                <textarea
+                  class="form-control"
+                  id="editExplanation"
+                  name="explanation"
+                  rows="3"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="editSubjectCode">Subject Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editSubjectCode"
+                  name="subjectCode"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="submitEditForm()"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Toggle dropdown container visibility with smooth animation
+        const dropdownBtn = document.querySelector(".dropdown-btn");
+        const dropdownContainer = document.querySelector(".dropdown-container");
+        dropdownBtn.addEventListener("click", function () {
+          $(dropdownContainer).slideToggle();
+        });
+
+        // Fetch question details and populate form on edit button click
+        document.querySelectorAll(".edit-button").forEach((button) => {
+          button.addEventListener("click", async function () {
+            const questionId = this.getAttribute("data-id");
+
+            try {
+              const response = await fetch(`/edit/${questionId}`);
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              const questionDetails = await response.json();
+              populateEditForm(questionDetails);
+            } catch (error) {
+              console.error("Fetch error:", error);
+              alert("Failed to fetch question details. Please try again.");
+            }
+          });
+        });
+
+        // Function to submit the edit form
+        document
+          .getElementById("edit-question-form")
+          .addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const questionId = document.getElementById("editQuestionId").value;
+
+            try {
+              const updatedQuestion = {
+                id: questionId,
+                question: document.getElementById("editQuestion").value,
+                optionA: document.getElementById("editOptionA").value,
+                optionB: document.getElementById("editOptionB").value,
+                optionC: document.getElementById("editOptionC").value,
+                optionD: document.getElementById("editOptionD").value,
+                correctAnswer:
+                  document.getElementById("editCorrectAnswer").value,
+                explanation: document.getElementById("editExplanation").value,
+                subjectCode: document.getElementById("editSubjectCode").value,
+              };
+
+              const response = await fetch(`/update-question`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedQuestion),
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              alert("Question updated successfully.");
+              location.reload();
+            } catch (error) {
+              console.error("Update error:", error);
+              alert("Failed to update question. Please try again.");
+            }
+          });
+
+        function populateEditForm(questionDetails) {
+          document.getElementById("editQuestionId").value =
+            questionDetails.id || "";
+          document.getElementById("editQuestion").value =
+            questionDetails.question || "";
+          document.getElementById("editOptionA").value =
+            questionDetails.optionA || "";
+          document.getElementById("editOptionB").value =
+            questionDetails.optionB || "";
+          document.getElementById("editOptionC").value =
+            questionDetails.optionC || "";
+          document.getElementById("editOptionD").value =
+            questionDetails.optionD || "";
+          document.getElementById("editCorrectAnswer").value =
+            questionDetails.correctAnswer || "";
+          document.getElementById("editExplanation").value =
+            questionDetails.explanation || "";
+          document.getElementById("editSubjectCode").value =
+            questionDetails.subjectCode || "";
+
+          $("#editQuestionModal").modal("show");
+        }
+      });
+    </script>
   </body>
 </html>

@@ -9,6 +9,8 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="/CSS/sidebar.css" />
+    <link rel="stylesheet" href="/CSS/navbar.css">
     <style>
       .card {
         border: 1px solid #ccc;
@@ -40,64 +42,76 @@
   </head>
   <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Dashboard</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              User
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Logout</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Side Navigation Bar -->
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Analytics</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Reports</a>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom">
+        <div class="container">
+          <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >User</a
+                >
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="http://localhost:8080/logout">Logout</a>
+                </div>
               </li>
             </ul>
           </div>
-        </nav>
-
+        </div>
+      </nav>
+      
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="http://localhost:8081/" class="close-btn">&times;</a>
+      <a href="http://localhost:8081/">Dashboard</a>
+      <a href="http://localhost:8081/">Profile</a>
+      <a href="http://localhost:8081/">Settings</a>
+      <a href="http://localhost:8081/">Reports</a>
+      <a href="http://localhost:8081/">Help</a>
+      <button class="dropdown-btn btn text-left">
+        Subjects <i class="fa fa-caret-down float-right"></i>
+      </button>
+      <div class="dropdown-container" style="display: none">
+        <a
+          href="http://localhost:8082/question-list/WBT"
+          onclick="fetchQuestions('WBT')"
+          >Web Based Technologies</a
+        >
+        <a
+          href="http://localhost:8082/question-list/SQL"
+          onclick="fetchQuestions('SQL')"
+          >SQL</a
+        >
+        <a
+          href="http://localhost:8082/question-list/ADJ"
+          onclick="fetchQuestions('ADJ')"
+          >Advance Java</a
+        >
+        <a href="#" onclick="fetchQuestions('English')">English</a>
+      </div>
+      <a class="btn btn-success mt-4" href="http://localhost:8081/users/dashboard">Student List</a>
+    </div>
         <!-- Main Content -->
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="pt-3">
@@ -150,5 +164,16 @@
     <!-- Bootstrap JS and Custom JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  const dropdownBtn = document.querySelector(".dropdown-btn");
+  const dropdownContainer = document.querySelector(".dropdown-container");
+
+  dropdownBtn.addEventListener("click", function () {
+    $(dropdownContainer).slideToggle();
+  });
+});
+    </script>
+    <script src="/JS/navbar.js"></script>
   </body>
 </html>

@@ -13,4 +13,6 @@ public interface MCQRepository extends MongoRepository<MCQQuestion, String> {
     void deleteBySubject(String subject);
 
     List<MCQQuestion> findBySubjectCode(String subjectCode);
+
+    MCQQuestion findMcqQuestionById(String id);
 }

@@ -1,0 +1,30 @@
+.navbar-custom {
+  background-color: #f8f9fa; /* Light gray background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #333; /* Dark color for the brand text */
+}
+
+.navbar-nav .nav-link {
+  color: #555; /* Darker text for nav links */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #007bff; /* Blue color on hover or when active */
+}
+
+.dropdown-menu {
+  background-color: #f8f9fa; /* Light gray background for dropdown */
+}
+
+.dropdown-item {
+  color: #333; /* Dark color for dropdown items */
+}
+
+.dropdown-item:hover {
+  background-color: #e9ecef; /* Lighter gray background on hover */
+}
