@@ -1,5 +1,9 @@
 The backend is currently under progress.
+## 26 May 2o24
 
+1. completed with minor css bugs and connected major pages 
+2. started working on quiz api that will fetch questions from the backend and display it on the frontend.
+   
 ## 25 May 2024
 
 1. Completed with edit questions and display questions on the server side as of now`✔`
