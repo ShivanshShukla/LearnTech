@@ -1,11 +1,35 @@
-.content {
-  margin-left: 250px;
-  padding: 20px;
-  width: calc(100% - 250px);
+.main-content {
+  margin-left: 250px; /* Ensure main content is not overlapped by the sidebar */
+  padding-top: 60px; /* Adjust padding to ensure content does not overlap the navbar */
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    z-index: 999;
+    background: #343a40; /* Dark background for sidebar */
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    transition: margin-left 0.5s;
+  }
+}
+
 .card {
   margin: 10px;
 }
+
 .button {
   margin-top: 20px;
 }

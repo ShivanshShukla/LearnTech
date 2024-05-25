@@ -11,7 +11,7 @@ const Navbar = () => {
     const student = JSON.parse(localStorage.getItem("student"));
     if (student) {
       try {
-        await axios.post("http://localhost:8080/learntech/students/logout", {
+        await axios.post("http://localhost:8081/learntech/students/logout", {
           studentId: student.id,
         });
         localStorage.removeItem("student");

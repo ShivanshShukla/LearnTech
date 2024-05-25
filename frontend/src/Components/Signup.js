@@ -71,7 +71,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/learntech/students/signup", {
+      const response = await fetch("http://localhost:8081/learntech/students/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -82,6 +82,6 @@ public class UserController {
     public String editStudentDashboard(Model model) {
         List<Student> students = studentServices.getAllStudents();
         model.addAttribute("students", students);
-        return "editDashboard";
+        return "editStudent";
     }
 }

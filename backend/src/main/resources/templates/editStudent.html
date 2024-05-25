@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Users Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Student Information</title>
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,12 +12,90 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/CSS/view.css}" />
     <link rel="stylesheet" href="/CSS/navbar.css" />
     <link rel="stylesheet" href="/CSS/sidebar.css" />
+    <style>
+      /* Main content styles */
+      .main-content {
+        margin-top: 20px; /* Adjusted to accommodate the fixed navbar and sidebar */
+        margin-left: 250px; /* Ensure content does not go under the sidebar */
+        padding: 20px; /* Added padding to the content area */
+        width: calc(100% - 250px); /* Adjust width to accommodate sidebar */
+        overflow: auto; /* Allow both horizontal and vertical scrolling */
+      }
+
+      /* Scrollable table styles */
+      .table-responsive {
+        max-height: calc(100vh - 200px); /* Adjust according to your layout */
+        overflow: auto;
+        border: 1px solid #dee2e6; /* Optional: Add border to the scrollable area */
+      }
+
+      .table {
+        width: 100%;
+        background-color: transparent;
+        border-collapse: collapse;
+        white-space: nowrap; /* Prevent text wrapping in table cells */
+      }
+
+      .table th,
+      .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        text-align: left; /* Align text to left */
+      }
+
+      .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+      }
+    </style>
   </head>
   <body>
-    <!-- Sidebar -->
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
+    >
+      <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >User</a
+            >
+            <div
+              class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="navbarDropdown"
+            >
+              <a class="dropdown-item" href="#">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="http://localhost:8081/logout"
+                >Logout</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <!-- Sidebar -->
     <div class="sidebar">
       <a href="http://localhost:8081/" class="close-btn">&times;</a>
@@ -53,55 +131,8 @@
         >Student List</a
       >
     </div>
-
-    <!-- Navbar -->
-    <nav
-      class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                >User</a
-              >
-              <div
-                class="dropdown-menu dropdown-menu-right"
-                aria-labelledby="navbarDropdown"
-              >
-                <a class="dropdown-item" href="#">Profile</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="http://localhost:8080/logout"
-                  >Logout</a
-                >
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
     <!-- Content -->
-    <div class="content">
+    <div class="main-content">
       <div class="container-fluid mt-5">
         <h2 class="mb-4 text-center">Edit Student Information</h2>
         <div class="table-responsive">
@@ -113,7 +144,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email Id</th>
-                <th>Country Code</th>
+                <th>Code</th>
                 <th>Contact</th>
                 <th>DOB</th>
                 <th>Gender</th>
@@ -123,11 +154,7 @@
             <tbody>
               <tr th:each="student, iterStat : ${students}">
                 <td>
-                  <input
-                    type="checkbox"
-                    class="student-checkbox"
-                    th:value="${student.id}"
-                  />
+                  <input type="checkbox" />
                 </td>
                 <td th:text="${iterStat.index + 1}"></td>
                 <td th:text="${student.firstName} ?: '-'"></td>
@@ -358,8 +385,31 @@
 
         $("#editStudentModal").modal("show");
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".dropdown-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+              dropdownContent.style.display = "none";
+            } else {
+              dropdownContent.style.display = "block";
+            }
+          });
+        });
+
+        document
+          .querySelector(".navbar-toggler")
+          .addEventListener("click", function () {
+            var sidebar = document.querySelector(".sidebar");
+            if (sidebar.classList.contains("active")) {
+              sidebar.classList.remove("active");
+            } else {
+              sidebar.classList.add("active");
+            }
+          });
+      });
     </script>
-    <script src="/JS/navbar.js"></script>
-    <script src="/JS/sidebar.js"></script>
   </body>
 </html>

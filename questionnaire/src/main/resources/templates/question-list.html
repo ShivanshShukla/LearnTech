@@ -10,13 +10,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    
+
     <link rel="stylesheet" href="/CSS/navbar.css" />
     <link rel="stylesheet" href="/CSS/sidebar.css" />
-    <link rel="stylesheet" href="/CSS/question-list.css">
+    <link rel="stylesheet" href="/CSS/question-list.css" />
     <style>
       .main-content {
-        padding-top: 50px /* Adjusted to accommodate the navbar */
+        padding-top: 50px; /* Adjusted to accommodate the navbar */
       }
       @media (max-width: 768px) {
         .sidebar {
@@ -40,6 +40,68 @@
         .container {
           padding-right: 15px;
           padding-left: 15px;
+        }
+        /* sidebar.css */
+
+        .sidebar {
+          height: 100%;
+          width: 250px;
+          position: fixed;
+          top: 0;
+          left: -250px;
+          background-color: #343a40;
+          overflow-x: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .sidebar a {
+          padding: 10px;
+          text-decoration: none;
+          display: block;
+          color: white;
+          transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+          background-color: #555;
+        }
+
+        .dropdown-btn {
+          background-color: #343a40;
+          color: white;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          text-align: left;
+          padding: 10px;
+          outline: none;
+        }
+
+        .dropdown-btn:hover {
+          background-color: #555;
+        }
+
+        .dropdown-container {
+          display: none;
+          background-color: #343a40;
+          padding-left: 20px;
+          transition: all 0.3s ease;
+        }
+
+        .dropdown-container a {
+          padding: 10px;
+          text-decoration: none;
+          display: block;
+          color: white;
+          transition: background-color 0.3s;
+        }
+
+        .dropdown-container a:hover {
+          background-color: #555;
         }
       }
     </style>
@@ -75,12 +137,12 @@
               >User</a
             >
             <div
-              class="dropdown-msenu dropdown-menu-right"
+              class="dropdown-menu dropdown-menu-right"
               aria-labelledby="navbarDropdown"
             >
               <a class="dropdown-item" href="#">Profile</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="http://localhost:8080/logout"
+              <a class="dropdown-item" href="http://localhost:8081/logout"
                 >Logout</a
               >
             </div>
@@ -90,7 +152,7 @@
     </nav>
     <!-- Sidebar -->
     <div class="sidebar">
-      <a href="http://localhost:8081/" class="close-btn">&times;</a>
+      <a href="#" class="close-btn">&times;</a>
       <a href="http://localhost:8081/">Dashboard</a>
       <a href="http://localhost:8081/">Profile</a>
       <a href="http://localhost:8081/">Settings</a>
@@ -117,7 +179,11 @@
         >
         <a href="#" onclick="fetchQuestions('English')">English</a>
       </div>
-      <a class="btn btn-success mt-4" href="http://localhost:8081/users/dashboard">Student List</a>
+      <a
+        class="btn btn-success mt-4"
+        href="http://localhost:8081/users/dashboard"
+        >Student List</a
+      >
     </div>
     <!-- Main Content -->
     <div class="main-content">
@@ -318,7 +384,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/JS/navbar.js"></script>
     <script>
+      // Scripts related to sidebar
       document.addEventListener("DOMContentLoaded", function () {
         // Toggle dropdown container visibility with smooth animation
         const dropdownBtn = document.querySelector(".dropdown-btn");
@@ -326,90 +394,8 @@
         dropdownBtn.addEventListener("click", function () {
           $(dropdownContainer).slideToggle();
         });
-
-        // Fetch question details and populate form on edit button click
-        document.querySelectorAll(".edit-button").forEach((button) => {
-          button.addEventListener("click", async function () {
-            const questionId = this.getAttribute("data-id");
-
-            try {
-              const response = await fetch(`/edit/${questionId}`);
-              if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-              const questionDetails = await response.json();
-              populateEditForm(questionDetails);
-            } catch (error) {
-              console.error("Fetch error:", error);
-              alert("Failed to fetch question details. Please try again.");
-            }
-          });
-        });
-
-        // Function to submit the edit form
-        document
-          .getElementById("edit-question-form")
-          .addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const questionId = document.getElementById("editQuestionId").value;
-
-            try {
-              const updatedQuestion = {
-                id: questionId,
-                question: document.getElementById("editQuestion").value,
-                optionA: document.getElementById("editOptionA").value,
-                optionB: document.getElementById("editOptionB").value,
-                optionC: document.getElementById("editOptionC").value,
-                optionD: document.getElementById("editOptionD").value,
-                correctAnswer:
-                  document.getElementById("editCorrectAnswer").value,
-                explanation: document.getElementById("editExplanation").value,
-                subjectCode: document.getElementById("editSubjectCode").value,
-              };
-
-              const response = await fetch(`/update-question`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedQuestion),
-              });
-
-              if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-              alert("Question updated successfully.");
-              location.reload();
-            } catch (error) {
-              console.error("Update error:", error);
-              alert("Failed to update question. Please try again.");
-            }
-          });
-
-        function populateEditForm(questionDetails) {
-          document.getElementById("editQuestionId").value =
-            questionDetails.id || "";
-          document.getElementById("editQuestion").value =
-            questionDetails.question || "";
-          document.getElementById("editOptionA").value =
-            questionDetails.optionA || "";
-          document.getElementById("editOptionB").value =
-            questionDetails.optionB || "";
-          document.getElementById("editOptionC").value =
-            questionDetails.optionC || "";
-          document.getElementById("editOptionD").value =
-            questionDetails.optionD || "";
-          document.getElementById("editCorrectAnswer").value =
-            questionDetails.correctAnswer || "";
-          document.getElementById("editExplanation").value =
-            questionDetails.explanation || "";
-          document.getElementById("editSubjectCode").value =
-            questionDetails.subjectCode || "";
-
-          $("#editQuestionModal").modal("show");
-        }
       });
     </script>
+    <script src="/JS/question-list.js"></script>
   </body>
 </html>

@@ -12,8 +12,32 @@
     <link rel="stylesheet" href="/CSS/sidebar.css" />
     <link rel="stylesheet" href="/CSS/navbar.css" />
     <style>
-      .navbar-custom {
-        background-color: #4caf50; /* Green */
+      .main-content {
+        padding-top: 50px; /* Adjusted to accommodate the navbar */
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: -250px;
+          width: 250px;
+          height: 100%;
+          z-index: 999;
+          background: #f8f9fa;
+          overflow-x: hidden;
+          transition: 0.5s;
+        }
+        .sidebar.active {
+          left: 0;
+        }
+        .main-content {
+          margin-left: 0;
+          transition: margin-left 0.5s;
+        }
+        .container {
+          padding-right: 15px;
+          padding-left: 15px;
+        }
       }
     </style>
   </head>
@@ -22,48 +46,45 @@
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
     >
-      <div class="container">
-        <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                >User</a
+      <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >User</a
+            >
+            <div
+              class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="navbarDropdown"
+            >
+              <a class="dropdown-item" href="#">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="http://localhost:8081/logout"
+                >Logout</a
               >
-              <div
-                class="dropdown-menu dropdown-menu-right"
-                aria-labelledby="navbarDropdown"
-              >
-                <a class="dropdown-item" href="#">Profile</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="http://localhost:8080/logout"
-                  >Logout</a
-                >
-              </div>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </nav>
-
     <!-- Sidebar -->
     <div class="sidebar">
       <a href="http://localhost:8081/" class="close-btn">&times;</a>
@@ -100,7 +121,7 @@
       >
     </div>
 
-    <div class="content">
+    <div class="main-content">
       <div class="container-fluid mt-5 pt-3">
         <h1 class="my-4">Dashboard</h1>
 
