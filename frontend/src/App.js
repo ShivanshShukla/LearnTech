@@ -10,6 +10,7 @@ import ThankYou from "./Components/Thankyou";
 import Dashboard from "./Components/Dashboard";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/Error";
+import Quiz from "./Components/Quiz";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/thankyou" element={<ThankYou />} />
+            <Route path="/quiz" element={<Quiz />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

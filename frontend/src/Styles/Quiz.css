@@ -1,0 +1,19 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-footer {
+  background-color: #fff;
+}
+
+.btn-secondary {
+  margin-top: 10px;
+}
+
+.btn-primary {
+  margin-left: auto;
+}

@@ -22,6 +22,14 @@ const Navbar = () => {
     }
   };
 
+  const handleQuizRedirect = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      navigate("/quiz");
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -69,6 +77,17 @@ const Navbar = () => {
                 to="/contact"
               >
                 Contact
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+                to="/quiz"
+                onClick={handleQuizRedirect}
+              >
+                Quiz
               </NavLink>
             </li>
           </ul>
