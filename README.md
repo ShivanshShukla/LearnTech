@@ -1,9 +1,18 @@
 The backend is currently under progress.
+
+## 27 May 2024
+
+1. Quiz api started working `✔`
+2. Now i can fetch questions from the back end and display it with the options. `✔`
+3. Subject list is also working which is showing details of quizes. `✔`
+4. In progress to check the answers and display score.
+5. Save the users progress in backend
+
 ## 26 May 2o24
 
-1. completed with minor css bugs and connected major pages 
-2. started working on quiz api that will fetch questions from the backend and display it on the frontend.
-   
+1. completed with minor css bugs and connected major pages `✔`
+2. started working on quiz api that will fetch questions from the backend and display it on the frontend. `✔`
+
 ## 25 May 2024
 
 1. Completed with edit questions and display questions on the server side as of now`✔`
