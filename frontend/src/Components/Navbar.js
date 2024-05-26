@@ -1,6 +1,7 @@
+// Navbar.js
+
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import "../Styles/Navbar.css";
 import axios from "axios";
 
 const Navbar = () => {
@@ -14,7 +15,9 @@ const Navbar = () => {
         await axios.post("http://localhost:8081/learntech/students/logout", {
           studentId: student.id,
         });
+        // Clear localStorage
         localStorage.removeItem("student");
+        // Navigate to home page
         navigate("/");
       } catch (error) {
         console.error("Logout error:", error);
@@ -23,11 +26,7 @@ const Navbar = () => {
   };
 
   const handleQuizRedirect = () => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    } else {
-      navigate("/quiz");
-    }
+    navigate("/quizlist");
   };
 
   return (
@@ -48,65 +47,61 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
+                exact
                 to="/"
+                className="nav-link"
+                activeClassName="active"
               >
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
                 to="/about-us"
+                className="nav-link"
+                activeClassName="active"
               >
                 About Us
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
                 to="/contact"
+                className="nav-link"
+                activeClassName="active"
               >
                 Contact
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-                to="/quiz"
+                to="/quiz-list" // Update to /quizlist
+                className="nav-link"
+                activeClassName="active"
                 onClick={handleQuizRedirect}
               >
-                Quiz
+                QuizList
               </NavLink>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav">
             {isAuthenticated ? (
               <>
-                <li className="nav-item mt-1 me-3">
+                <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "nav-link active" : "nav-link"
-                    }
                     to="/dashboard"
+                    className="nav-link"
+                    activeClassName="active"
                   >
                     Dashboard
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <button
-                    className="btn btn-outline-danger w-100"
+                    className="btn btn-outline-danger"
                     onClick={handleLogout}
                   >
                     Logout
@@ -116,18 +111,14 @@ const Navbar = () => {
             ) : (
               <>
                 <li className="nav-item">
-                  <NavLink
-                    to="/login"
-                    className="btn btn-primary w-100"
-                    id="login"
-                  >
+                  <NavLink to="/login" className="btn btn-primary">
                     Login
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
                     to="/signup"
-                    className="btn btn-outline-primary w-100"
+                    className="btn btn-outline-primary ms-2"
                   >
                     Sign Up
                   </NavLink>

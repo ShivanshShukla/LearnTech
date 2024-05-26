@@ -1,19 +1,79 @@
-body {
-  background-color: #f8f9fa;
+/* Quiz.css */
+
+.quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
 }
 
-.card {
+.progress-bar {
+  width: 50%; /* Half the width */
   margin-bottom: 20px;
 }
 
-.card-footer {
+.question-card {
   background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 50%; /* Half the width */
+  transition: all 0.3s ease;
 }
 
-.btn-secondary {
+.question-card h2 {
+  font-size: 1.5rem; /* Adjusted font size */
+  margin-bottom: 10px;
+}
+
+.question-text {
+  font-size: 1.2rem; /* Adjusted font size */
+  margin-bottom: 10px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.option-btn {
+  font-size: 1rem; /* Adjusted font size */
+  padding: 12px; /* Adjusted padding */
+  text-align: left;
+  transition: all 0.3s ease;
+  width: 100%; /* Full width */
+}
+
+.option-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
+  width: 100%;
 }
 
-.btn-primary {
-  margin-left: auto;
+.timer {
+  font-size: 1rem; /* Adjusted font size */
+}
+
+.time-red {
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .question-card {
+    width: 80%; /* Adjusted width for smaller screens */
+  }
 }

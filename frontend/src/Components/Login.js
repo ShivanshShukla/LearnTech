@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } }; // Default to '/' if no referrer
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +23,8 @@ const Login = () => {
           setError("");
           console.log("Login successful");
           localStorage.setItem("student", JSON.stringify(response.data));
-          navigate("/dashboard");
+          const intendedPath = localStorage.getItem("intendedPath");
+          navigate(intendedPath ? intendedPath : from); // Redirect to previous location or intended path
         } else {
           console.log("Login failed: Invalid response data");
           setError("Invalid email or password. Please try again.");

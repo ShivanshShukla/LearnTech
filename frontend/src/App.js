@@ -10,6 +10,7 @@ import ThankYou from "./Components/Thankyou";
 import Dashboard from "./Components/Dashboard";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/Error";
+import QuizList from "./Components/QuizList";
 import Quiz from "./Components/Quiz";
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/thankyou" element={<ThankYou />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/quiz-list" element={<QuizList />} />
+            <Route path="/quiz/:subjectCode" element={<Quiz />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

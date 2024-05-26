@@ -1,101 +1,155 @@
-import React, { useState, useEffect } from 'react';
-import "../Styles/Quiz.css"
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Button, Card, ProgressBar } from "react-bootstrap";
+import "../Styles/Quiz.css";
 
-function Quiz() {
+const Quiz = () => {
+  const { subjectCode } = useParams();
   const [questions, setQuestions] = useState([]);
-  const [batchIndex, setBatchIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timer, setTimer] = useState(30); // Timer in seconds
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(30); // in seconds
 
   useEffect(() => {
-    fetchQuestions();
-  }, [batchIndex]); // Fetch questions whenever batchIndex changes
+    // Check if subjectCode is available
+    if (subjectCode) {
+      const decodedSubjectCode = decodeURIComponent(subjectCode);
+
+      // Fetch questions data based on decoded subject code
+      fetch(
+        `http://localhost:8082/api/questions?subjectCode=${decodedSubjectCode}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched questions:", data);
+          const initialSelectedAnswers = {};
+          data.forEach((question) => {
+            initialSelectedAnswers[question.id] = null; // Initialize selected answer for each question
+          });
+          setSelectedAnswers(initialSelectedAnswers);
+          setQuestions(data);
+          setTimeRemaining(30); // Reset time for each new set of questions
+        })
+        .catch((error) => console.error("Error fetching questions:", error));
+    } else {
+      console.error("Subject code not found in route parameters");
+      // Handle the case where subjectCode is missing (e.g., display an error message)
+    }
+  }, [subjectCode]);
 
   useEffect(() => {
-    // Reset timer when currentQuestionIndex changes
-    setTimer(30);
-    const timerInterval = setInterval(() => {
-      setTimer(prevTimer => prevTimer - 1);
+    // Timer logic
+    const timer = setTimeout(() => {
+      if (timeRemaining > 0) {
+        setTimeRemaining(timeRemaining - 1);
+      } else {
+        // Time's up, change to the next question
+        handleNextQuestion();
+      }
     }, 1000);
 
-    // Clear interval when component unmounts or currentQuestionIndex changes
-    return () => clearInterval(timerInterval);
-  }, [currentQuestionIndex]);
+    // Cleanup timer
+    return () => clearTimeout(timer);
+  }, [timeRemaining]);
 
-  const fetchQuestions = async () => {
-    try {
-      const response = await fetch(`http://localhost:8082/api/questions?page=${batchIndex}&size=5`);
-      const data = await response.json();
-      setQuestions(data);
-      setCurrentQuestionIndex(0); // Reset current question index
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-    }
-  };
-
-  const handleNextBatch = () => {
-    setBatchIndex(prevBatchIndex => prevBatchIndex + 1);
-  };
-
-  const handlePreviousBatch = () => {
-    setBatchIndex(prevBatchIndex => (prevBatchIndex - 1 < 0 ? 0 : prevBatchIndex - 1));
+  const handleAnswerSelect = (questionId, selectedOption) => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [questionId]: selectedOption,
+    });
   };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-      setTimer(30); // Reset timer for the next question
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setTimeRemaining(30); // Reset time for each new question
+    } else {
+      // Quiz completed
+      setQuizCompleted(true);
     }
   };
 
-  const renderTimer = () => {
-    if (timer === 0) {
-      handleNextQuestion();
-    }
+  const handleSubmitQuiz = () => {
+    // Submit selected answers logic here (e.g., send to backend, calculate score, etc.)
+    console.log("Selected Answers:", selectedAnswers);
+    setQuizCompleted(true);
   };
 
-  const currentQuestion = questions.length > 0 ? questions[currentQuestionIndex] : null;
+  // Check if questions is an array before rendering
+  if (!Array.isArray(questions) || questions.length === 0) {
+    return <p className="quiz-message">No questions available</p>;
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="App container">
-      <h1 className="my-4 text-center">Quiz Questions</h1>
-      {questions.length === 0 ? (
-        <p>Loading questions...</p>
-      ) : (
-        <div>
-          <div className="card mb-4">
-            <div className="card-body">
-              <h5 className="card-title">{currentQuestion.question}</h5>
-              <ul className="list-group list-group-flush">
-                {currentQuestion.options.map((option, index) => (
-                  <li key={index} className="list-group-item">
-                    {option}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="card-footer d-flex justify-content-between align-items-center">
-              <div>
-                Time Left: {timer} seconds
-              </div>
-              <button onClick={handleNextQuestion} className="btn btn-primary">
-                Next Question
-              </button>
-            </div>
+    <div className="quiz-container">
+      <ProgressBar
+        now={(currentQuestionIndex + 1) / questions.length * 100}
+        label={`${Math.floor((currentQuestionIndex + 1) / questions.length * 100)}%`}
+        className="progress-bar"
+      />
+      <Card className="question-card">
+        <Card.Header>
+          <div className="timer">
+            Time Remaining:{" "}
+            <span className={timeRemaining < 15 ? "time-red" : ""}>
+              {timeRemaining}
+            </span>{" "}
+            seconds
           </div>
-
-          <div className="d-flex justify-content-between">
-            <button onClick={handlePreviousBatch} className="btn btn-secondary" disabled={batchIndex === 0}>
-              Previous
-            </button>
-            <button onClick={handleNextBatch} className="btn btn-secondary">
-              Next
-            </button>
+        </Card.Header>
+        <Card.Body>
+          <Card.Title>
+            Question {currentQuestionIndex + 1} of {questions.length}
+          </Card.Title>
+          <Card.Text className="question-text">{currentQuestion.question}</Card.Text>
+          <div className="options-list">
+            {["A", "B", "C", "D"].map((option, optionIndex) => {
+              const optionText = currentQuestion[`option${option}`].trim();
+              if (optionText !== "") {
+                return (
+                  <Button
+                    key={optionIndex}
+                    variant={
+                      selectedAnswers[currentQuestion.id] === option
+                        ? "primary"
+                        : "outline-secondary"
+                    }
+                    className="option-btn"
+                    onClick={() => handleAnswerSelect(currentQuestion.id, option)}
+                    disabled={quizCompleted || timeRemaining === 0}
+                  >
+                    {optionText}
+                  </Button>
+                );
+              }
+              return null;
+            })}
           </div>
-        </div>
-      )}
+        </Card.Body>
+        <Card.Footer>
+          {!quizCompleted && timeRemaining > 0 && (
+            <Button
+              variant="primary"
+              onClick={handleNextQuestion}
+              className="next-btn"
+            >
+              Next Question
+            </Button>
+          )}
+        </Card.Footer>
+      </Card>
+      <div className="action-buttons">
+        {quizCompleted || timeRemaining === 0 ? (
+          <Button variant="primary" onClick={handleSubmitQuiz}>
+            Submit Answers
+          </Button>
+        ) : null}
+      </div>
     </div>
   );
-}
+};
 
 export default Quiz;

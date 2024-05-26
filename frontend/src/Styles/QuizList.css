@@ -1,0 +1,84 @@
+.quiz-list {
+  margin-top: 20px;
+}
+
+.subject-card {
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: none;
+  border-radius: 10px;
+}
+
+.subject-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+}
+
+.subject-card .btn {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.subject-card:hover .card-title,
+.subject-card:hover .card-text {
+  color: #007bff;
+}
+
+/* Responsive design */
+@media (max-width: 767px) {
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-text {
+    font-size: 0.875rem;
+  }
+
+  .subject-card .btn {
+    font-size: 0.875rem;
+  }
+}
+.subject-card .btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.subject-card .btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.subject-card .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.card-title {
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+}
+
+.card-text {
+  font-family: "Verdana", sans-serif;
+  line-height: 1.5;
+}
+
+/* Add icon to the card */
+.subject-card .card-title::before {
+  content: "📚";
+  margin-right: 10px;
+}

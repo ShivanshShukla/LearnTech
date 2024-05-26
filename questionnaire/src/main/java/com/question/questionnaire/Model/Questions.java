@@ -1,7 +1,5 @@
 package com.question.questionnaire.Model;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,10 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Questions {
     @Id
     private String id;
-
+    private String subjectCode;
     private String question;
-    private List<String> options;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String optionD;
     private String correctAnswer;
+    private String explanation;
 
     public String getId() {
         return id;
@@ -30,12 +32,36 @@ public class Questions {
         this.question = question;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
+    }
+
+    public String getOptionB() {
+        return optionB;
+    }
+
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
+    }
+
+    public String getOptionC() {
+        return optionC;
+    }
+
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
+    }
+
+    public String getOptionD() {
+        return optionD;
+    }
+
+    public void setOptionD(String optionD) {
+        this.optionD = optionD;
     }
 
     public String getCorrectAnswer() {
@@ -44,6 +70,22 @@ public class Questions {
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
 }
