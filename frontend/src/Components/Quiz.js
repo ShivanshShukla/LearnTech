@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button, Card, ProgressBar } from "react-bootstrap";
 import "../Styles/Quiz.css";
 
 const Quiz = () => {
   const { subjectCode } = useParams();
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(30); // in seconds
+  const [timeRemaining, setTimeRemaining] = useState(30);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // Check if subjectCode is available
     if (subjectCode) {
       const decodedSubjectCode = decodeURIComponent(subjectCode);
-
-      // Fetch questions data based on decoded subject code
       fetch(
         `http://localhost:8082/api/questions?subjectCode=${decodedSubjectCode}`
       )
@@ -25,33 +25,71 @@ const Quiz = () => {
           console.log("Fetched questions:", data);
           const initialSelectedAnswers = {};
           data.forEach((question) => {
-            initialSelectedAnswers[question.id] = null; // Initialize selected answer for each question
+            initialSelectedAnswers[question.id] = null;
           });
           setSelectedAnswers(initialSelectedAnswers);
           setQuestions(data);
-          setTimeRemaining(30); // Reset time for each new set of questions
+          setTimeRemaining(30);
+          setQuizStarted(true);
         })
         .catch((error) => console.error("Error fetching questions:", error));
     } else {
       console.error("Subject code not found in route parameters");
-      // Handle the case where subjectCode is missing (e.g., display an error message)
     }
   }, [subjectCode]);
 
   useEffect(() => {
-    // Timer logic
-    const timer = setTimeout(() => {
-      if (timeRemaining > 0) {
-        setTimeRemaining(timeRemaining - 1);
-      } else {
-        // Time's up, change to the next question
-        handleNextQuestion();
-      }
-    }, 1000);
-
-    // Cleanup timer
-    return () => clearTimeout(timer);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      const timer = setTimeout(() => {
+        if (timeRemaining > 0) {
+          setTimeRemaining(timeRemaining - 1);
+        } else {
+          handleNextQuestion();
+        }
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
   }, [timeRemaining]);
+
+  useEffect(() => {
+    const handleQuizEnd = () => {
+      alert("Your test has ended.");
+      navigate("/");
+    };
+
+    const handleWindowUnload = (event) => {
+      if (quizStarted && !quizCompleted) {
+        const confirmationMessage =
+          "You have unsaved changes, are you sure you want to leave?";
+        event.preventDefault();
+        event.returnValue = confirmationMessage; // For legacy browsers
+        return confirmationMessage; // For modern browsers
+      } else {
+        navigate("/");
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (quizStarted && !quizCompleted && document.visibilityState === "hidden") {
+        const confirmEnd = window.confirm(
+          "You have switched tabs. Your test will be ended. Do you want to continue?"
+        );
+        if (confirmEnd) {
+          handleQuizEnd();
+        }
+      }
+    };
+
+    window.addEventListener("beforeunload", handleWindowUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleWindowUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [quizStarted, quizCompleted, navigate]);
 
   const handleAnswerSelect = (questionId, selectedOption) => {
     setSelectedAnswers({
@@ -65,30 +103,37 @@ const Quiz = () => {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setTimeRemaining(30); // Reset time for each new question
     } else {
-      // Quiz completed
       setQuizCompleted(true);
     }
   };
 
   const handleSubmitQuiz = () => {
-    // Submit selected answers logic here (e.g., send to backend, calculate score, etc.)
     console.log("Selected Answers:", selectedAnswers);
     setQuizCompleted(true);
+    navigate("/answers", {
+      state: {
+        selectedAnswers,
+        questions,
+        totalQuestions: questions.length,
+        completionTime: 30 - timeRemaining,
+      },
+    });
   };
 
-  // Check if questions is an array before rendering
   if (!Array.isArray(questions) || questions.length === 0) {
     return <p className="quiz-message">No questions available</p>;
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const progressPercentage =
+    ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
     <div className="quiz-container">
       <ProgressBar
-        now={(currentQuestionIndex + 1) / questions.length * 100}
-        label={`${Math.floor((currentQuestionIndex + 1) / questions.length * 100)}%`}
-        className="progress-bar"
+        now={progressPercentage}
+        label={`${Math.floor(progressPercentage)}%`}
+        className="custom-progress-bar"
       />
       <Card className="question-card">
         <Card.Header>
@@ -104,7 +149,9 @@ const Quiz = () => {
           <Card.Title>
             Question {currentQuestionIndex + 1} of {questions.length}
           </Card.Title>
-          <Card.Text className="question-text">{currentQuestion.question}</Card.Text>
+          <Card.Text className="question-text">
+            {currentQuestion.question}
+          </Card.Text>
           <div className="options-list">
             {["A", "B", "C", "D"].map((option, optionIndex) => {
               const optionText = currentQuestion[`option${option}`].trim();
@@ -118,7 +165,9 @@ const Quiz = () => {
                         : "outline-secondary"
                     }
                     className="option-btn"
-                    onClick={() => handleAnswerSelect(currentQuestion.id, option)}
+                    onClick={() =>
+                      handleAnswerSelect(currentQuestion.id, option)
+                    }
                     disabled={quizCompleted || timeRemaining === 0}
                   >
                     {optionText}

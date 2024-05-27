@@ -4,9 +4,19 @@
 
 .subject-card {
   margin-bottom: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   border: none;
   border-radius: 10px;
+  overflow: hidden;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.subject-card:nth-child(odd) {
+  background-color: #f0f8ff; /* Light blue background for odd cards */
+}
+
+.subject-card:nth-child(even) {
+  background-color: #e6f7ff; /* Light sky blue background for even cards */
 }
 
 .subject-card:hover {
@@ -17,11 +27,22 @@
 .card-title {
   font-size: 1.5rem;
   font-weight: bold;
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title::before {
+  content: "📚";
 }
 
 .card-text {
   font-size: 1rem;
   color: #555;
+  font-family: "Verdana", sans-serif;
+  line-height: 1.5;
 }
 
 .subject-card .btn {
@@ -29,6 +50,20 @@
   font-size: 1rem;
   font-weight: bold;
   border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.subject-card .btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.subject-card .btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .subject-card:hover .card-title,
@@ -49,36 +84,4 @@
   .subject-card .btn {
     font-size: 0.875rem;
   }
-}
-.subject-card .btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.subject-card .btn:hover {
-  background-color: #0056b3;
-  color: white;
-}
-
-.subject-card .btn:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.card-title {
-  font-family: "Arial", sans-serif;
-  text-transform: uppercase;
-}
-
-.card-text {
-  font-family: "Verdana", sans-serif;
-  line-height: 1.5;
-}
-
-/* Add icon to the card */
-.subject-card .card-title::before {
-  content: "📚";
-  margin-right: 10px;
 }

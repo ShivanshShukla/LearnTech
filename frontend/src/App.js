@@ -12,6 +12,8 @@ import Footer from "./Components/Footer";
 import ErrorPage from "./Components/Error";
 import QuizList from "./Components/QuizList";
 import Quiz from "./Components/Quiz";
+import Answer from "./Components/Answer";
+
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
             <Route path="/thankyou" element={<ThankYou />} />
             <Route path="/quiz-list" element={<QuizList />} />
             <Route path="/quiz/:subjectCode" element={<Quiz />} />
+            <Route path="/answers" element={<Answer />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

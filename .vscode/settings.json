@@ -5,5 +5,7 @@
         "learntech"
     ],
     "java.compile.nullAnalysis.mode": "automatic",
-    "maven.view": "flat"
+    "maven.view": "flat",
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.dependency.packagePresentation": "hierarchical"
 }

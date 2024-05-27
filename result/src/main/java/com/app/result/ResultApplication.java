@@ -1,4 +1,4 @@
-package com.question.questionnaire;
+package com.app.result;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class QuestionnaireApplication {
+public class ResultApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(QuestionnaireApplication.class, args);
+		SpringApplication.run(ResultApplication.class, args);
 	}
 
 }

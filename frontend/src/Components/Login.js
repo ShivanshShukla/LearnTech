@@ -23,8 +23,10 @@ const Login = () => {
           setError("");
           console.log("Login successful");
           localStorage.setItem("student", JSON.stringify(response.data));
-          const intendedPath = localStorage.getItem("intendedPath");
-          navigate(intendedPath ? intendedPath : from); // Redirect to previous location or intended path
+          localStorage.setItem("loggedIn", "true"); // Set loggedIn flag
+
+          // Redirect to previous location or '/'
+          navigate(from.pathname);
         } else {
           console.log("Login failed: Invalid response data");
           setError("Invalid email or password. Please try again.");

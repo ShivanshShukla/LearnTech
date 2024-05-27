@@ -1,32 +1,38 @@
-// Navbar.js
-
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("student");
 
+  const handleQuizEnd = () => {
+    alert("Your test has ended.");
+    navigate("/");
+  };
+
   const handleLogout = async () => {
     const student = JSON.parse(localStorage.getItem("student"));
     if (student) {
+      const confirmation = window.confirm(
+        "You have unsaved changes, are you sure you want to log out?"
+      );
+      if (!confirmation) {
+        return; // Exit the function if the user cancels the action
+      }
       try {
         await axios.post("http://localhost:8081/learntech/students/logout", {
           studentId: student.id,
         });
         // Clear localStorage
         localStorage.removeItem("student");
-        // Navigate to home page
-        navigate("/");
+        localStorage.removeItem("loggedIn");
+        handleQuizEnd(); // Redirect to home page and show the alert
       } catch (error) {
         console.error("Logout error:", error);
       }
     }
-  };
-
-  const handleQuizRedirect = () => {
-    navigate("/quizlist");
   };
 
   return (
@@ -78,10 +84,9 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/quiz-list" // Update to /quizlist
+                to="/quiz-list"
                 className="nav-link"
                 activeClassName="active"
-                onClick={handleQuizRedirect}
               >
                 QuizList
               </NavLink>

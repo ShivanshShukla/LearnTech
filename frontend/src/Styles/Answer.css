@@ -1,0 +1,116 @@
+.answer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .result-card {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-card .btn {
+    margin-top: 20px;
+  }
+  
+  .result-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .average-time {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .questions-container {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .question-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .question-card .card-body {
+    padding: 20px;
+  }
+  
+  .question-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .question-text {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .options-list .option {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .options-list .correct {
+    background-color: #d4edda; /* Green background for correct user answer */
+    color: #155724; /* Green text for correct user answer */
+    font-weight: bold;
+  }
+  
+  .options-list .incorrect {
+    background-color: #f8d7da; /* Red background for incorrect user answer */
+    color: #721c24; /* Red text for incorrect user answer */
+    font-weight: bold;
+  }
+  
+  .options-list .highlight-correct {
+    background-color: #d4edda; /* Green background for correct answer */
+    color: #155724; /* Green text for correct answer */
+    font-weight: bold;
+  }
+  
+  .options-list .correct-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #28a745;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  
+  .explanation {
+    font-weight: bold;
+    margin-top: 10px;
+    font-style: italic;
+    color: #333;
+    background-color: #f0f0f0; /* Background color for Explanation */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.95rem;
+  }
+  
+  .error-message {
+    margin-top: 50px;
+    text-align: center;
+    color: red;
+  }
+  

@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ResultApplication",
+            "request": "launch",
+            "mainClass": "com.app.result.ResultApplication"
+        },
+        {
+            "type": "java",
             "name": "QuestionnaireApplication",
             "request": "launch",
             "mainClass": "com.question.questionnaire.QuestionnaireApplication"
@@ -24,6 +30,26 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.question.questionnaire.QuestionnaireApplication",
             "projectName": "questionnaire",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ResultApplication<result>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.app.result.ResultApplication",
+            "projectName": "result",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceRegistryApplication<service_registry>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.app.service_registry.ServiceRegistryApplication",
+            "projectName": "service_registry",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
