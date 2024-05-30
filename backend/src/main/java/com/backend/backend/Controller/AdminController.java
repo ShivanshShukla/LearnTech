@@ -8,12 +8,12 @@ import com.backend.backend.Model.Admin;
 import com.backend.backend.Services.AdminServices;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/backend/api/admin")
 public class AdminController {
 
     @Autowired
     private AdminServices adminServices;
-    
+
     @GetMapping(value = { "/", "/home" })
     public String home() {
         return "Welcome to Admin Home";

@@ -31,7 +31,8 @@
             "mainClass": "com.question.questionnaire.QuestionnaireApplication",
             "projectName": "questionnaire",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58622 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=questionnaire"
         },
         {
             "type": "java",
@@ -41,7 +42,8 @@
             "mainClass": "com.app.result.ResultApplication",
             "projectName": "result",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58623 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=result"
         },
         {
             "type": "java",
@@ -50,6 +52,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.app.service_registry.ServiceRegistryApplication",
             "projectName": "service_registry",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58624 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=service_registry"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiGatewayApplication<api-gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.app.api_gateway.ApiGatewayApplication",
+            "projectName": "api-gateway",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

@@ -16,7 +16,7 @@ const QuizList = () => {
     });
 
     // Fetch subjects data from your API
-    fetch("http://localhost:8082/api/subjects")
+    fetch("http://localhost:8080/questionnaire/api/subjects")
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched subjects:", data);

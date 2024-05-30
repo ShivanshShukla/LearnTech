@@ -18,7 +18,7 @@ const Quiz = () => {
     if (subjectCode) {
       const decodedSubjectCode = decodeURIComponent(subjectCode);
       fetch(
-        `http://localhost:8082/api/questions?subjectCode=${decodedSubjectCode}`
+        `http://localhost:8080/questionnaire/api/questions?subjectCode=${decodedSubjectCode}`
       )
         .then((response) => response.json())
         .then((data) => {

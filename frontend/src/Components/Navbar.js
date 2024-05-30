@@ -22,7 +22,7 @@ const Navbar = () => {
         return; // Exit the function if the user cancels the action
       }
       try {
-        await axios.post("http://localhost:8081/learntech/students/logout", {
+        await axios.post("http://localhost:8080/backend/learntech/students/logout", {
           studentId: student.id,
         });
         // Clear localStorage

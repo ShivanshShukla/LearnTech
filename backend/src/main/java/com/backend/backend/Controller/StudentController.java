@@ -16,7 +16,7 @@ import com.backend.backend.Model.StudentResponse;
 import com.backend.backend.Services.StudentServices;
 
 @RestController
-@RequestMapping("/learntech/students")
+@RequestMapping("/backend/learntech/students")
 public class StudentController {
 
     @Autowired

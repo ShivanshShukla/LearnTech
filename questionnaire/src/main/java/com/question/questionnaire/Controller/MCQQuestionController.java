@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.question.questionnaire.Model.MCQQuestion;
 import com.question.questionnaire.Service.MCQQeustionService;
 
 @Controller
+@RequestMapping("/questionnaire")
 public class MCQQuestionController {
 
     @Autowired

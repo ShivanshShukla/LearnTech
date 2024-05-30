@@ -8,6 +8,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping("/backend")
 public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
