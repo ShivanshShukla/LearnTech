@@ -24,8 +24,14 @@ public class StudentController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> addStudent(@RequestBody Student student) {
-        String result = studentService.addStudent(student);
-        return ResponseEntity.ok(result);
+        try {
+            String result = studentService.addStudent(student);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding student");
+        }
     }
 
     @PostMapping("/login")
@@ -36,15 +42,23 @@ public class StudentController {
             if ("User not found".equals(authenticationResult) || "Incorrect password".equals(authenticationResult)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(authenticationResult);
             }
+
             Student student = studentService.findByEmailId(studentLoginForm.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             studentService.setActiveStatus(student.getId(), true);
 
-            return ResponseEntity.ok(new StudentResponse(student.getFirstName(), student.getLastName(),
-                    student.getEmailId(), student.getId()));
+            StudentResponse response = new StudentResponse(student.getFirstName(), student.getLastName(),
+                    student.getEmailId(), student.getId());
+            return ResponseEntity.ok(response);
+        } catch (UsernameNotFoundException e) {
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
         }
     }
 
@@ -54,7 +68,9 @@ public class StudentController {
             studentService.setActiveStatus(logoutRequest.getStudentId(), false);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during logout");
         }
     }
 }

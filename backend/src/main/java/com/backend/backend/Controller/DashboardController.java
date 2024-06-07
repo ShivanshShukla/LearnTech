@@ -15,6 +15,7 @@ import com.backend.backend.Services.StudentServices;
 @Controller
 @RequestMapping("/backend")
 public class DashboardController {
+
     @Autowired
     private StudentServices studentService;
 
@@ -23,15 +24,28 @@ public class DashboardController {
         UserDataRequest dataRequest = new UserDataRequest();
         Map<UserDataRequest.GenderCount, Integer> genderCountMap = new HashMap<>();
 
-        dataRequest.setTotalNoOfUsers(String.valueOf(studentService.totalNumbersOfUsers()));
-        dataRequest.setNumberOfActiveUsers(String.valueOf(studentService.totalActiveUsers()));
+        try {
 
-        genderCountMap.put(UserDataRequest.GenderCount.MEN, studentService.totalMaleUsers());
-        genderCountMap.put(UserDataRequest.GenderCount.WOMEN, studentService.totalFemaleUsers());
-        genderCountMap.put(UserDataRequest.GenderCount.OTHERS, studentService.totalOtherUsers());
+            Long totalUsers = studentService.totalNumbersOfUsers();
+            Long activeUsers = studentService.totalActiveUsers();
+            int maleUsers = studentService.totalMaleUsers();
+            int femaleUsers = studentService.totalFemaleUsers();
+            int otherUsers = studentService.totalOtherUsers();
 
-        dataRequest.setGenderCounts(genderCountMap);
-        model.addAttribute("dataRequest", dataRequest);
+            dataRequest.setTotalNoOfUsers(String.valueOf(totalUsers));
+            dataRequest.setNumberOfActiveUsers(String.valueOf(activeUsers));
+            genderCountMap.put(UserDataRequest.GenderCount.MEN, maleUsers);
+            genderCountMap.put(UserDataRequest.GenderCount.WOMEN, femaleUsers);
+            genderCountMap.put(UserDataRequest.GenderCount.OTHERS, otherUsers);
+            dataRequest.setGenderCounts(genderCountMap);
+
+            model.addAttribute("dataRequest", dataRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            model.addAttribute("error", "An error occurred while fetching the dashboard data");
+        }
+
         return "view";
     }
 }

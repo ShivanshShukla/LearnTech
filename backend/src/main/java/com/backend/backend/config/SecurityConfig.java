@@ -35,7 +35,7 @@ public class SecurityConfig {
                 })
                 .formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer.loginPage("/login")
-                            .defaultSuccessUrl("/home", true)
+                            .defaultSuccessUrl("/backend/home", true)
                             .permitAll();
                 })
                 .build();
@@ -64,4 +64,5 @@ public class SecurityConfig {
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }

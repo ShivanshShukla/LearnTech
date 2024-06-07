@@ -57,7 +57,9 @@
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-custom"
     >
-      <a class="navbar-brand" href="http://localhost:8081/">LearnTech</a>
+      <a class="navbar-brand" href="http://localhost:8080/backend/"
+        >LearnTech</a
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -88,7 +90,9 @@
             >
               <a class="dropdown-item" href="#">Profile</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="http://localhost:8081/logout"
+              <a
+                class="dropdown-item"
+                href="http://localhost:8080/backend/logout"
                 >Logout</a
               >
             </div>
@@ -98,28 +102,28 @@
     </nav>
     <!-- Sidebar -->
     <div class="sidebar">
-      <a href="http://localhost:8081/" class="close-btn">&times;</a>
-      <a href="http://localhost:8081/">Dashboard</a>
-      <a href="http://localhost:8081/">Profile</a>
-      <a href="http://localhost:8081/">Settings</a>
-      <a href="http://localhost:8081/">Reports</a>
-      <a href="http://localhost:8081/">Help</a>
+      <a href="http://localhost:8080/backend/" class="close-btn">&times;</a>
+      <a href="http://localhost:8080/backend/">Dashboard</a>
+      <a href="http://localhost:8080/backend/">Profile</a>
+      <a href="http://localhost:8080/backend/">Settings</a>
+      <a href="http://localhost:8080/backend/">Reports</a>
+      <a href="http://localhost:8080/backend/">Help</a>
       <button class="dropdown-btn btn text-left">
         Subjects <i class="fa fa-caret-down float-right"></i>
       </button>
       <div class="dropdown-container" style="display: none">
         <a
-          href="http://localhost:8082/question-list/WBT"
+          href="http://localhost:8080/questionnaire/question-list/WBT"
           onclick="fetchQuestions('WBT')"
           >Web Based Technologies</a
         >
         <a
-          href="http://localhost:8082/question-list/SQL"
+          href="http://localhost:8080/questionnaire/question-list/SQL"
           onclick="fetchQuestions('SQL')"
           >SQL</a
         >
         <a
-          href="http://localhost:8082/question-list/ADJ"
+          href="http://localhost:8080/questionnaire/question-list/ADJ"
           onclick="fetchQuestions('ADJ')"
           >Advance Java</a
         >
@@ -127,7 +131,7 @@
       </div>
       <a
         class="btn btn-success mt-4"
-        href="http://localhost:8081/users/dashboard"
+        href="http://localhost:8080/backend/users/dashboard"
         >Student List</a
       >
     </div>
@@ -270,7 +274,7 @@
 
           try {
             const response = await fetch(
-              `http://localhost:8081/users/students/${studentId}`
+              `http://localhost:8080/backend/users/students/${studentId}`
             );
             if (!response.ok) {
               throw new Error("Failed to fetch student details");
@@ -304,7 +308,7 @@
             };
 
             const response = await fetch(
-              `http://localhost:8081/users/student-update`,
+              `http://localhost:8080/backend/users/student-update`,
               {
                 method: "PUT",
                 headers: {
@@ -346,7 +350,7 @@
         });
 
       function deleteStudents(ids) {
-        fetch("http://localhost:8081/users/delete", {
+        fetch("http://localhost:8080/backend/users/delete", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

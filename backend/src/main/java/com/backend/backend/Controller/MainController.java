@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/backend")
 public class MainController {
+
    
     @GetMapping("/login")
-    public String login() {
+    public String showLoginPage() {
         return "customLogin";
     }
 }

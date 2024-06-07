@@ -30,14 +30,18 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/getall")
-    public ResponseEntity<Admin> getAdminByUsername(@RequestParam String username) {
+    @GetMapping("/find")
+    public ResponseEntity<Object> getAdminByUsername(@RequestParam String username) {
         try {
             Admin admin = adminServices.findByUserName(username);
-            return ResponseEntity.ok(admin);
+            if (admin != null) {
+                return ResponseEntity.ok(admin);
+            } else {
+                return ResponseEntity.status(404).body("Admin not found");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(500).body("An error occurred while retrieving admin details");
         }
     }
 }

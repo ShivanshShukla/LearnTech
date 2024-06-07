@@ -18,12 +18,12 @@ public class CustomErrorController implements ErrorController {
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
             if (statusCode == 404) {
-                return "error-404"; 
+                return "error-404";
             } else if (statusCode == 500) {
-                return "error-500"; 
+                return "error-500";
             }
         }
-        
+
         return "error";
     }
 
